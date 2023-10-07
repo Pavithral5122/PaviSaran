@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let countries = [];
+        function getCountries() {
+            fetch('https://restcountries.com/v3.1/all')
+                .then(x => x.json())
+                .then(y => {
+                    countries = y;
+                    filterAsianCountries();
+                    filterPopulation();
+                    currency();
+                    countrydetails();
+                    totalpopulation();
+                });
+        }
+        getCountries();
+        function filterAsianCountries() {
+            let result = countries.filter((country) => {
+                return country.region === 'Asia'
+            });
+            console.log("List of asian countries:", result);
+        }
+        function filterPopulation() {
+            let populationResult = countries.filter((value) => {
+                return value.population < 200000
+            });
+            console.log("population", populationResult);
+        }
+        function currency() {
+            let currencyResult = countries.filter((value) => {
+                return value.currencies?.USD
+
+            });
+            console.log("currencyResult", currencyResult);
+        }
+        function countrydetails() {
+            countries.forEach((value) => {
+                console.log("countryDetails", value.name, value.capital, value.flags.svg);
+            });
+
+        }
+        function totalpopulation() {
+            let overallpopulation = countries.reduce((total, value) => {
+                total = parseInt((total || 0) + value.population);
+                return total
+
+            });
+            console.log("overallpopulation", overallpopulation);
+        }
+    </script>
+</body>
+
+</html>
